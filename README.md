@@ -213,7 +213,9 @@ idea创建一个基于java:21 + tomcat:10的maven web项目，仅包含测试主
 ### MySQL + Tomcat
 创建web-project服务目录，编写脚本整合mysql+tomcat2个子服务；<br>
 tomcat需访问mysql，在docker-compose脚本中tomcat部分声明依赖mysql。<br>
-扩展以上maven web项目配置；添加JDBC依赖/数据源配置，数据源地址是jdbc:mysql://mysql:3306/mysql_database 初始化数据库,重新打包部署到服务器，创建容器测试。
+扩展以上maven web项目配置；添加JDBC依赖/数据源配置，数据源地址是jdbc:mysql://mysql:3306/mysql_database<br>
+**服务内Tomcat子服务的容器需要访问子服务MySQL，属于同一网络，因此只需要通过3306端口就可以访问MySQL。**<br>
+初始化数据库,重新打包部署到服务器，创建容器测试。<br>
 命令查看tomcat容器内输出，是否启动正常。<br>
 编写tomcat依赖mysql服务健康监测情况启动配置，重新创建容器测试。
 
