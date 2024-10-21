@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql/data/:/var/lib/mysql/
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${mysql_pwd}
+      MYSQL_DATABASE: ${mysql_database}
+    command:
+      --max_connections=2500
+    healthcheck:
+      # test: mysql --user=root --password=1157 -e "select 1;"
+      test: mysql -uroot -p$$MYSQL_ROOT_PASSWORD -e "select 1;"
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  tomcat:
+    image: tomcat:10.1-jdk21
+    volumes:
+      - ./tomcat/webapps/:/usr/local/tomcat/webapps/
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql

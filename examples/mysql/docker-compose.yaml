@@ -1,0 +1,14 @@
+services:
+  public-mysql:
+    restart: always
+    image: mysql:8
+    container_name: de5
+    volumes:
+      - ./data/:/var/lib/mysql/
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${mysql_pwd}
+    command:
+      --max_connections=2500
+    ports:
+      - 3306:3306

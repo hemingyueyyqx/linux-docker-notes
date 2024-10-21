@@ -1,0 +1,10 @@
+services:
+  tomcat:
+    image: tomcat:10.1-jdk21
+    volumes:
+      - ./webapps/:/usr/local/tomcat/webapps/
+      - ./logs/:/usr/local/tomcat/logs/
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 8080:8080
