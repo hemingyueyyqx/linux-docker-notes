@@ -91,6 +91,7 @@ NAT模式（Network Address Translation）则是一种网络地址转换技术�
 - i ：插入模式
 - Esc:wq : 保存退出
 - Esc:q : 不保存强制退出
+- 查看IP地址 ： ip addr（windows:查看IP地址:ipconfig 查看所有运行端口：netstat -ano 查看被占用端口对应的 PID：netstat -aon|findstr "8081"）
 
 在Linux中，查看目录中的文件可以使用ls命令。以下是一些常用的ls命令选项：
 - ls：列出当前目录中的文件和子目录。
