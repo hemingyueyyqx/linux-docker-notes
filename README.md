@@ -124,6 +124,39 @@ Docker 的主要优势包括：
 [Docker命令大全（参考csdn）](https://blog.csdn.net/Aaaaaaatwl/article/details/140149394)
 
 安装教程 https://docs.docker.com/engine/install/centos/ <br>
+CentOs 9 安装docker：
+<li>卸载旧版本</li>
+
+```
+sudo dnf remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+```
+<li>安装 yum-utils，它提供了 yum-config-manager，用于管理 yum 软件源</li>
+
+```
+yum install -y yum-utils
+```
+<li>添加 Docker CE 软件源 （※为了加快速度，此处配置了国内的阿里镜像源）</li>
+
+```
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+```
+<li>安装 Docker CE</li>
+
+```
+yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+<li>启动 Docker</li>
+
+```
+systemctl start docker
+```
 sudo yum install -y yum-utils 报错问题 https://blog.csdn.net/weixin_43490087/article/details/141924032<br>
 获取密钥失败问题 多运行几次命令<br>
 hello world运行失败或超时 基于vi修改配置文件 配置加速地址：
@@ -143,6 +176,7 @@ sudo systemctl restart docker
 systemctl status docker
 ~~~
 ### Docker Compose
+docker已默认集成docker compose。
 [教程](https://www.runoob.com/docker/docker-compose.html?spm=a2c6h.13046898.publish-article.66.78fc6ffaIUcpyO)<br>
 Orchestration System（编排系统）是一种用于协调和管理多个服务、应用程序或系统之间的交互和工作流的技术。它在云计算、微服务架构和容器化环境中尤为重要，目的是提高自动化、效率和可管理性。以下是一些关键方面：
 
