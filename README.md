@@ -342,6 +342,16 @@ server {
 
 提高容器的通用性：不同的容器可能基于不同的基础镜像构建，但大多数镜像都会保留 /home 目录。将文件挂载到 /home 目录，使得容器在不同基础镜像之间的兼容性更好，便于在不同环境下使用相同的挂载配置。
 方便后续维护：当需要对容器进行维护、升级或迁移时，由于挂载目录是 /home 这个常见且容易识别的目录，维护人员可以更方便地理解和操作，降低了维护成本和出错的可能性。
-**vite-plugin-compression2**
-https://blog.csdn.net/gitblog_00017/article/details/139735527
-https://blog.csdn.net/gitblog_00349/article/details/142080716
+
+[//]: # (**vite-plugin-compression2**)
+<a href="https://blog.csdn.net/gitblog_00999/article/details/142084881" >vite-plugin-compression2</a>
+
+[//]: # (**Gzip vs Brotli 压缩算法，谁更好**)
+<a href="https://www.zhanzhangb.cn/tutorials/gzip-vs-brotli-better-compression.html#gzip-%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95" >Gzip vs Brotli 压缩算法，谁更好</a>
+
+<a href="https://blog.csdn.net/qq_38902230/article/details/132182707" >vue3+vite开启gzip压缩以及Nginx配置gzip压缩</a>
+<a href="https://blog.csdn.net/weixin_44917334/article/details/129387658" >Vue3 中 createWebHistory 和 createWebHashHistory 的区别
+</a>
+
+<a href="https://juejin.cn/post/6844903838768431118" >强制缓存和协商缓存</a>
+
