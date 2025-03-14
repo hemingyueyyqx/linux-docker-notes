@@ -1,0 +1,78 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+#name：工作流的名称为 Node.js CI。
+#on：定义工作流的触发条件。当向 main 分支进行代码推送（push）或者发起针对 main 分支的拉取请求（pull_request）时，工作流将被触发。
+name: Node.js CI
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+#jobs：工作流由多个作业组成，这里仅定义了一个名为 build 的作业。
+#runs-on：指定作业运行的环境，这里选择了最新的 Ubuntu 系统。
+#strategy：使用矩阵策略来定义不同的运行环境组合。
+#matrix：定义了一个矩阵变量 node-version，取值为 20.x，表示该作业将在 Node.js 20.x 版本的环境下运行。
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+#      使用 actions/checkout@v4 这个 GitHub 官方提供的 Action，将代码仓库中的代码检出到当前运行环境中，以便后续进行构建和测试等操作。
+      - uses: actions/checkout@v4
+#        name：步骤的名称，这里会根据矩阵变量动态显示使用的 Node.js 版本，例如 Use Node.js 20.x。
+      #uses：使用 actions/setup-node@v4 这个 Action 来设置 Node.js 开发环境。
+      #with：为 Action 提供参数。
+      #node-version：指定要使用的 Node.js 版本，这里使用矩阵变量 ${{ matrix.node-version }}，即 20.x。
+      #cache：启用 npm 依赖的缓存功能，这样在后续构建中，如果依赖没有变化，就可以直接从缓存中恢复，从而加快构建速度。
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+#          使用 npm ci 命令来进行依赖的全新安装。与 npm install 不同，npm ci 会严格按照 package-lock.json 中的版本信息来安装依赖，确保每次安装的依赖版本一致，适用于自动化构建环境。
+      - run: npm ci
+#        执行 npm run build 命令来构建项目。--if-present 选项表示只有当 package.json 中定义了 build 脚本时才执行该命令，避免在没有定义构建脚本的情况下报错。
+      - run: npm run build --if-present
+      # copy
+#      name：步骤的名称为 copy file via ssh password，表示通过 SSH 密码认证的方式复制文件。
+      #uses：使用 appleboy/scp-action@v0.1.7 这个第三方 Action 来实现通过 SSH 协议将文件复制到远程服务器。
+      #with：为 Action 提供参数。
+      #host：远程服务器的主机名或 IP 地址，从 GitHub 仓库的 Secrets 中获取，以保证敏感信息的安全。
+      #username：登录远程服务器的用户名，同样从 Secrets 中获取。
+      #password：登录远程服务器的密码，从 Secrets 中获取。
+      #source：要复制的源文件，这里是 dist 目录下的所有文件。
+      #target：目标路径，从 Secrets 中获取。
+      #strip_components：设置为 1 表示只复制文件，不复制目录结构。
+      #rm：设置为 true 表示在复制前先删除目标路径下的同名文件。
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          source: 'dist/*'
+          target: ${{ secrets.TARGET }}
+          # 仅复制文件，不复制目录
+          strip_components: 1
+          rm: true
+      # deploy
+#      name：步骤的名称为 executing remote ssh commands using password，表示通过 SSH 密码认证的方式在远程服务器上执行命令。
+      #uses：使用 appleboy/ssh-action@v1.0.3 这个第三方 Action 来通过 SSH 协议在远程服务器上执行指定的脚本。
+      #with：为 Action 提供参数。
+      #host、username、password：与复制文件步骤中的含义相同，从 Secrets 中获取相关信息。
+      #script：要在远程服务器上执行的脚本内容，从 Secrets 中获取。根据注释，该脚本可能用于进入指定目录并使用 Docker Compose 重新创建并启动 Nginx 容器。
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          # cd /home/hemy/services/lab_management/
+          # docker compose up --force-recreate --no-deps -d nginx
+          script: ${{ secrets.RECREATE_CONTAINER }}

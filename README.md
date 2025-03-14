@@ -355,3 +355,10 @@ server {
 
 <a href="https://juejin.cn/post/6844903838768431118" >强制缓存和协商缓存</a>
 
+**GitHub Actions**
+
+<a href="https://blog.csdn.net/qq_62377885/article/details/136731968">教程</a>
+
+**环境变量问题**
+
+服务器项目根目录下的.env会被docker compose 脚本所识别，而springboot项目中的application-prod.yml文件中的环境变量信息应该去docker compose 脚本中找。
