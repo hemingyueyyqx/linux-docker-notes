@@ -77,4 +77,14 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           # cd /home/hemy/services/lab_management/
           # docker compose up --force-recreate --no-deps -d openjdk
+#  docker compose 是 Docker 官方提供的一个用于定义和运行多容器 Docker 应用的工具。
+#  docker compose up 命令用于启动所有在 docker-compose.yml 文件中定义的服务，或者指定的服务。
+# --force-recreate
+ #该参数的作用是强制重新创建容器，即使容器的配置和镜像没有发生改变。通常情况下，docker compose up 会检查容器的配置和镜像是否有变化，如果没有变化，它会尝试复用现有的容器，而不是重新创建。但使用 --force-recreate 后，无论容器的状态如何，都会重新创建容器。
+#--no-deps
+#此参数表示在启动指定服务时，不启动该服务所依赖的其他服务。在 docker-compose.yml 文件中，你可以定义服务之间的依赖关系，默认情况下，docker compose up 会自动启动依赖的服务。使用 --no-deps 可以跳过这个过程，只启动指定的服务。
+#          -d
+          #这是 --detach 的简写形式，意思是让容器在后台运行（即守护进程模式）。使用该参数后，容器启动后不会在终端显示日志输出，而是直接返回命令行界面，方便你继续执行其他操作。
+#          openjdk
+          #这里的 openjdk 是指在 docker-compose.yml 文件中定义的一个服务名称。该命令会针对 openjdk 这个服务执行相应的操作，即强制重新创建并在后台启动该服务对应的容器，同时不启动其依赖的服务。
           script: ${{ secrets.RECREATE_CONTAINER }}

@@ -350,6 +350,7 @@ server {
 <a href="https://www.zhanzhangb.cn/tutorials/gzip-vs-brotli-better-compression.html#gzip-%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95" >Gzip vs Brotli 压缩算法，谁更好</a>
 
 <a href="https://blog.csdn.net/qq_38902230/article/details/132182707" >vue3+vite开启gzip压缩以及Nginx配置gzip压缩</a>
+
 <a href="https://blog.csdn.net/weixin_44917334/article/details/129387658" >Vue3 中 createWebHistory 和 createWebHashHistory 的区别
 </a>
 
